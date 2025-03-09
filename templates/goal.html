@@ -1,0 +1,231 @@
+{% load static %}
+<!-- <link rel="stylesheet" href="{% static 'dashboard.css' %}"> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Tracker with Line Graph</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        section#Goals {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 100px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-form-container {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form#goal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form#goal-form label {
+            font-weight: bold;
+        }
+
+        form#goal-form input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form#goal-form button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        form#goal-form button:hover {
+            background-color: #2980b9;
+        }
+
+        ul#goal-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        ul#goal-list li {
+            background: #ecf0f1;
+            padding: 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 20px;
+            width: 100%;
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #2ecc71;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Styling for the canvas (line graph) */
+        .graphs-container {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        #progress-chart {
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Space between left and right sections */
+        .goal-form-container {
+            margin-right: 40px;
+        }
+    </style>
+</head>
+<body>
+    <section id="Goals">
+        <!-- Left Section for Goals -->
+        <div class="goal-form-container">
+            <h2 class="section-title">Set Financial Goals</h2>
+            <form id="goal-form">
+                <label for="goal-name">Goal Name:</label>
+                <input type="text" id="goal-name" required>
+
+                <label for="goal-target">Target Amount:</label>
+                <input type="number" id="goal-target" required>
+
+                <label for="goal-progress">Current Progress:</label>
+                <input type="number" id="goal-progress" required>
+
+                <button type="submit">Add Goal</button>
+            </form>
+
+            <ul id="goal-list">
+                <!-- Goals with progress bars will appear here dynamically -->
+            </ul>
+        </div>
+
+        <!-- Right Section for Graph -->
+        <div class="graphs-container">
+            <canvas id="progress-chart"></canvas>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize months for X-axis
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Initialize Chart.js
+        const ctx = document.getElementById('progress-chart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months, // X-axis labels (12 months)
+                datasets: [{
+                    label: 'Current Progress ($)',
+                    data: Array(12).fill(0), // Initialize with 0 for all months
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    fill: true,
+                    tension: 0.3,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Months'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Progress Amount ($)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('goal-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get user input
+            const goalName = document.getElementById('goal-name').value;
+            const targetAmount = parseFloat(document.getElementById('goal-target').value);
+            const currentProgress = parseFloat(document.getElementById('goal-progress').value);
+            const currentMonthIndex = new Date().getMonth(); // Get the current month (0-11)
+
+            // Calculate progress percentage
+            const progressPercentage = Math.min((currentProgress / targetAmount) * 100, 100);
+
+            // Create new goal list item
+            const goalList = document.getElementById('goal-list');
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <strong>${goalName}</strong>
+                <p>Target: $${targetAmount}</p>
+                <p>Current Progress: $${currentProgress}</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: ${progressPercentage}%;"></div>
+                </div>
+            `;
+            goalList.appendChild(listItem);
+
+            // Update chart data
+            progressChart.data.datasets[0].data[currentMonthIndex] += currentProgress; // Update progress for the current month
+            progressChart.update(); // Update the chart with new data
+
+            // Clear form inputs
+            document.getElementById('goal-name').value = '';
+            document.getElementById('goal-target').value = '';
+            document.getElementById('goal-progress').value = '';
+        });
+    </script>
+</body>
+</html>

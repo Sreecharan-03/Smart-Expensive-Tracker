@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VVealthifyy Login</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+
+<style>
+    h5{
+        color: red;
+    }
+</style>
+
+<body class="bod">
+    <div class="hel345">
+        <img src="https://s3-eu-west-1.amazonaws.com/tpd/logos/59b2b0960000ff0005aab49b/0x0.png" class="logo">
+
+        <div class="logcont">
+
+            <form class="logbox" method="post">
+                {% csrf_token %}
+
+                <h2>Sign In</h2>
+                <input type="text" placeholder="username" required name="username" />
+                <input type="password" placeholder="password" required name = "password">
+
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+
+                <button type="submit">Sign In</button>
+
+                <div class="alt-options">
+                    <a href="https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1" style="color: #004AAD !important;">Forgot password?</a>
+                </div>
+
+                <div class="remember">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" class="hel23">Remember me</label>
+                </div>
+
+                <div class="signup">
+                    <p>New to wealthify? <a href="register" style="color: #004AAD !important;">Sign up now.</a></p>
+                </div>
+
+                <div class="recapt">
+                </div>
+                <style>
+                    .password-link {
+                        color: #004AAD;
+                    }
+                </style>
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>

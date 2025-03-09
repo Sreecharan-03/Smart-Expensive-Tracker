@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2x2 Card Grid</title>
+    <link rel="stylesheet" href="{% static 'ipo.css' %}">
+</head>
+
+<body class="bgim">
+    <img src="https://cdn.shopify.com/s/files/1/0181/9161/4016/files/Ethical_investing_-_Wealthify_logo.png?v=1636027075" class="logo">
+    <div class="navbar">
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="dashboard">Dashboard</a>
+            <a href="goal">Goals</a>
+            <a href="ipo">Top IPO</a>
+            <a href="calc">Budget Calculator</a>
+            
+            {% if user.is_authenticated %}
+            <a href="logout">Sign out</a>
+            {% else %}
+            <a href="login">Sign Up/In</a>
+            {% endif %}
+
+            <!-- <a href="#">Sign In</a> -->
+        </div>
+    </div>
+
+    <h1>TOP SIP'S</h1>
+
+    <div class="card-container">
+        <a href="https://www.policybazaar.com/sip/sip-plans-for-5000-per-month/">
+            <div class="card">
+                <h1>> 5,000</h1>
+            </div>
+        </a>
+        <a href="https://www.policybazaar.com/sip/10000-monthly-sip-plans/">
+            <div class="card">
+                <h1>> 10,000</h1>
+            </div>
+        </a>
+        <a href="https://www.etmoney.com/mutual-funds/featured/best-sip-funds/18">
+            <div class="card">
+                <h1>Others</h1>
+            </div>
+        </a>
+    </div>
+</body>
+
+</html>

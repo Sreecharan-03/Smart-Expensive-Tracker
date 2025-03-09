@@ -1,0 +1,94 @@
+{% load static %}
+
+
+<!-- <!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Registration Form</title>  
+    <link rel="stylesheet" href="styles.css">  
+</head>  
+<body>  
+    <div class="container">  
+        <h2>Register Here</h2>  
+
+        {% for message in messages %}
+        <h5>{{message}}</h5>
+        {% endfor %}
+        <form action="submit_registration.php" method="post"> 
+            {% csrf_token %} 
+            <label for="name"><b>First Name</b></label>  
+            <input type="text" id="name" name="fullname" placeholder="Enter Full Name" required> <br>  
+  
+            <label for="email"><b>Email</b></label>  
+            <input type="email" id="email" name="email" placeholder="Enter Email" required>  <br>
+  
+            <label for="psw"><b>Password</b></label>  
+            <input type="password" id="psw" name="password" placeholder="Enter Password" required>  <br>
+  
+            <label for="psw-repeat"><b>Repeat Password</b></label>  
+            <input type="password" id="psw-repeat" name="psw-repeat" placeholder="Repeat Password" required> <br> 
+  
+            <button type="submit">Register</button>  
+        </form>  
+    </div>  
+</body>  
+</html>   -->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealthifyy Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'register.css' %}" />
+</head>
+
+<style>
+    h5{
+        color: red;
+    }
+</style>
+
+<body class="bod">
+    <div class="hel345">
+        <img src="https://s3-eu-west-1.amazonaws.com/tpd/logos/59b2b0960000ff0005aab49b/0x0.png" class="logo">
+
+        <div class="logcont">
+
+            <form class="logbox" method="post">
+                {% csrf_token %} 
+
+                <h2>Sign Up</h2>
+                <div class="name-container">
+                    <input type="text" placeholder="First Name" class="name-input" required name="First">
+                    <input type="text" placeholder="Last Name" class="name-input" required name="Last">
+                </div>
+                <input type="text" placeholder="Username" required name = "username">
+                <input type="password" placeholder="Password" required name = "password">
+                <input type="password" placeholder="Confirm Password" required name = "password2">
+                <input type="email" placeholder="Email" required name="email">
+                <input type="tel" placeholder="Phone Number" pattern="[0-9]{10}" required name="phno">
+                
+                {% for message in messages %}
+                <h5 >{{message}}</h5>
+                {% endfor %}
+                <button type="submit">Sign Up</button>
+
+                <div class="alt-options">
+                    <a href="https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1" style="color: #004AAD !important;">Forgot password?</a>
+                </div>
+
+                <div class="signup">
+                    <p>Already have an account? <a href="login" style="color: #004AAD !important;">Log in now.</a></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

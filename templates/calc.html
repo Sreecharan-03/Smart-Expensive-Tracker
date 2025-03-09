@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate</title>
+    <link rel="stylesheet" href="{% static 'calc.css' %}">
+</head>
+
+<body class="hii">
+    <div class="container">
+        <h1>Calculate</h1>
+        <div class="input-card">
+            <label for="value-input">Enter your Income:</label>
+            <input type="number" id="value-input" placeholder="Enter here" name = calcnum />
+            <button onclick="calculate()">Calculate</button>
+        </div>
+
+        <!-- Results Cards arranged in a row-wise format -->
+        <div class="results">
+            <div class="result-card">
+                <h2>Use this amount for your needs.</h2>
+                <p id="result-50">-</p>
+            </div>
+            <div class="result-card">
+                <h2>Use this amount for your wants.</h2>
+                <p id="result-30">-</p>
+            </div>
+            <div class="result-card">
+                <h2>Use this part to save or invest.</h2>
+                <p id="result-20">-</p>
+            </div>
+        </div>
+        <br>
+        <h5> NOTE : This calculation is  based on  "50/30/20 rule" of budgeting means allocating your after-tax income into three categories: 50% for necessary expenses ("needs"), 30% for discretionary spending ("wants"), and 20% for savings and debt repayment ("savings") </h5>
+        
+        <a href="https://www.investopedia.com/ask/answers/022916/what-502030-budget-rule.asp">Click here for further details.</a>
+        
+    </div>
+
+    <script src="{% static 'calc.js' %}"></script>
+</body>
+
+</html>
